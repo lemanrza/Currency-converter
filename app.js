@@ -34,18 +34,25 @@ buttonsTo.forEach(btn => {
 function updateRates() {
     if (!navigator.onLine) {
         if (currencyFrom === currencyTo) {
-            rateFromText.style.color="#999"
-            rateToText.style.color="#999"
+            rateFromText.style.color = "#999";
+            rateToText.style.color = "#999";
             rateFromText.innerHTML = `1 ${currencyFrom} = <span>1.0000</span> ${currencyTo}`;
             rateToText.innerHTML = `1 ${currencyTo} = <span>1.0000</span> ${currencyFrom}`;
         } else {
-            rateFromText.style.color="red"
-            rateToText.style.color="red"
+            rateFromText.style.color = "red";
+            rateToText.style.color = "red";
             rateFromText.innerHTML = `Şəbəkə yoxdur!`;
             rateToText.innerHTML = `Şəbəkə yoxdur`;
         }
         return;
     }
+
+    if (currencyFrom === currencyTo) {
+        rateFromText.innerHTML = `1 ${currencyFrom} = <span>1</span> ${currencyTo}`;
+        rateToText.innerHTML = `1 ${currencyTo} = <span>1</span> ${currencyFrom}`;
+        return;
+    }
+
     fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/latest/${currencyFrom}`)
         .then(res => res.json())
         .then(data => {
@@ -75,6 +82,7 @@ function convert() {
         else inputFrom.value = '0';
         return;
     }
+
     if (!navigator.onLine) {
         if (base === target) {
             let result = parseFloat(amount).toFixed(5);
@@ -84,6 +92,14 @@ function convert() {
             if (currentSide === 'from') inputTo.value = '';
             else inputFrom.value = '';
         }
+        return;
+    }
+
+    if (currencyFrom === currencyTo) {
+        let result = parseFloat(amount).toFixed(5);
+        result = result.replace(/\.?0+$/, '');
+        if (currentSide === 'from') inputTo.value = result;
+        else inputFrom.value = result;
         return;
     }
 
@@ -107,6 +123,12 @@ inputFrom.addEventListener('input', () => {
         let clean = inputFrom.value.replace(',', '.').replace(/\.(?=.*\.)/g, '');
         if (clean === '.') clean = '0.';
         if (clean.includes('.')) clean = clean.slice(0, clean.indexOf('.') + 6);
+
+        if (currencyFrom === currencyTo && clean === '1.') {
+            clean = '1';
+            inputTo.value = clean;
+        }
+
         inputFrom.value = clean;
         convert();
     }, 250);
@@ -121,6 +143,12 @@ inputTo.addEventListener('input', () => {
         let clean = inputTo.value.replace(',', '.').replace(/\.(?=.*\.)/g, '');
         if (clean === '.') clean = '0.';
         if (clean.includes('.')) clean = clean.slice(0, clean.indexOf('.') + 6);
+
+        if (currencyFrom === currencyTo && clean === '1.') {
+            clean = '1';
+            inputFrom.value = clean; 
+        }
+
         inputTo.value = clean;
         convert();
     }, 250);
