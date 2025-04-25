@@ -38,9 +38,6 @@ ul li {
     cursor: pointer;
 }
 
-ul li:hover {
-    color: #333;
-}
 
 li.activeLi {
     color: #333;
@@ -115,9 +112,6 @@ section h1 {
     color: #fff;
 }
 
-.tab:not(.active):hover {
-    background: #e0e0e0;
-}
 
 .input-box {
     border: 1px solid #e0e0e0;
