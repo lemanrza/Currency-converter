@@ -150,6 +150,11 @@ section h1 {
     font-size: 24px;
     cursor: pointer;
 }
+.internet{
+    font-size: 26px;
+    color: red;
+    display: none;
+}
 
 @media (max-width: 991px) {
     ul {

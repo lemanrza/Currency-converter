@@ -4,6 +4,7 @@ const buttonsFrom = document.querySelectorAll('.tabFrom');
 const buttonsTo = document.querySelectorAll('.tabTo');
 const rateFromText = document.querySelector('.rateFrom');
 const rateToText = document.querySelector('.rateTo');
+let noInternet = document.querySelector(".internet")
 
 let currencyFrom = 'RUB';
 let currencyTo = 'USD';
@@ -34,17 +35,16 @@ buttonsTo.forEach(btn => {
 function updateRates() {
     if (!navigator.onLine) {
         if (currencyFrom === currencyTo) {
-            rateFromText.style.color = "#999";
-            rateToText.style.color = "#999";
             rateFromText.innerHTML = `1 ${currencyFrom} = <span>1.0000</span> ${currencyTo}`;
             rateToText.innerHTML = `1 ${currencyTo} = <span>1.0000</span> ${currencyFrom}`;
         } else {
-            rateFromText.style.color = "red";
-            rateToText.style.color = "red";
-            rateFromText.innerHTML = `Şəbəkə yoxdur!`;
-            rateToText.innerHTML = `Şəbəkə yoxdur`;
+            noInternet.style.display = "block"
         }
         return;
+    }
+    else {
+        noInternet.style.display = "none"
+
     }
 
     if (currencyFrom === currencyTo) {
@@ -102,16 +102,17 @@ function convert() {
         else inputFrom.value = result;
         return;
     }
+    else {
+        fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/pair/${base}/${target}`)
+            .then(res => res.json())
+            .then(data => {
+                let rate = data.conversion_rate;
+                let result = (parseFloat(amount) * rate).toFixed(5);
 
-    fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/pair/${base}/${target}`)
-        .then(res => res.json())
-        .then(data => {
-            let rate = data.conversion_rate;
-            let result = (parseFloat(amount) * rate).toFixed(5);
-
-            if (currentSide === 'from') inputTo.value = result;
-            else inputFrom.value = result;
-        });
+                if (currentSide === 'from') inputTo.value = result;
+                else inputFrom.value = result;
+            });
+    }
 }
 
 inputFrom.addEventListener('input', () => {
@@ -146,7 +147,7 @@ inputTo.addEventListener('input', () => {
 
         if (currencyFrom === currencyTo && clean === '1.') {
             clean = '1';
-            inputFrom.value = clean; 
+            inputFrom.value = clean;
         }
 
         inputTo.value = clean;
