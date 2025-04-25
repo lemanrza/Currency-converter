@@ -4,7 +4,7 @@ const buttonsFrom = document.querySelectorAll('.tabFrom');
 const buttonsTo = document.querySelectorAll('.tabTo');
 const rateFromText = document.querySelector('.rateFrom');
 const rateToText = document.querySelector('.rateTo');
-let noInternet = document.querySelector(".internet")
+let noInternet = document.querySelector(".internet");
 
 let currencyFrom = 'RUB';
 let currencyTo = 'USD';
@@ -38,13 +38,11 @@ function updateRates() {
             rateFromText.innerHTML = `1 ${currencyFrom} = <span>1.0000</span> ${currencyTo}`;
             rateToText.innerHTML = `1 ${currencyTo} = <span>1.0000</span> ${currencyFrom}`;
         } else {
-            noInternet.style.display = "block"
+            noInternet.style.display = "block";
         }
         return;
-    }
-    else {
-        noInternet.style.display = "none"
-
+    } else {
+        noInternet.style.display = "none";
     }
 
     if (currencyFrom === currencyTo) {
@@ -85,7 +83,7 @@ function convert() {
 
     if (!navigator.onLine) {
         if (base === target) {
-            let result = parseFloat(amount).toFixed(5);
+            let result = amount;
             if (currentSide === 'from') inputTo.value = result;
             else inputFrom.value = result;
         } else {
@@ -96,23 +94,21 @@ function convert() {
     }
 
     if (currencyFrom === currencyTo) {
-        let result = parseFloat(amount).toFixed(5);
-        result = result.replace(/\.?0+$/, '');
+        let result = amount;
         if (currentSide === 'from') inputTo.value = result;
         else inputFrom.value = result;
         return;
     }
-    else {
-        fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/pair/${base}/${target}`)
-            .then(res => res.json())
-            .then(data => {
-                let rate = data.conversion_rate;
-                let result = (parseFloat(amount) * rate).toFixed(5);
 
-                if (currentSide === 'from') inputTo.value = result;
-                else inputFrom.value = result;
-            });
-    }
+    fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/pair/${base}/${target}`)
+        .then(res => res.json())
+        .then(data => {
+            let rate = data.conversion_rate;
+            let result = (parseFloat(amount) * rate).toFixed(5);
+
+            if (currentSide === 'from') inputTo.value = result;
+            else inputFrom.value = result;
+        });
 }
 
 inputFrom.addEventListener('input', () => {
@@ -124,11 +120,6 @@ inputFrom.addEventListener('input', () => {
         let clean = inputFrom.value.replace(',', '.').replace(/\.(?=.*\.)/g, '');
         if (clean === '.') clean = '0.';
         if (clean.includes('.')) clean = clean.slice(0, clean.indexOf('.') + 6);
-
-        if (currencyFrom === currencyTo && clean === '1.') {
-            clean = '1';
-            inputTo.value = clean;
-        }
 
         inputFrom.value = clean;
         convert();
@@ -144,11 +135,6 @@ inputTo.addEventListener('input', () => {
         let clean = inputTo.value.replace(',', '.').replace(/\.(?=.*\.)/g, '');
         if (clean === '.') clean = '0.';
         if (clean.includes('.')) clean = clean.slice(0, clean.indexOf('.') + 6);
-
-        if (currencyFrom === currencyTo && clean === '1.') {
-            clean = '1';
-            inputFrom.value = clean;
-        }
 
         inputTo.value = clean;
         convert();
