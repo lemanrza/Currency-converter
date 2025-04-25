@@ -1,331 +1,129 @@
-// const inputFieldFrom = document.querySelector('.inputFrom');
-// const inputFieldTo = document.querySelector('.inputTo');
-// const buttonsFrom = document.querySelectorAll('.tabFrom');
-// const buttonsTo = document.querySelectorAll('.tabTo');
-// const rateDisplayFrom = document.querySelector('.rate');
-// const rateDisplayTo = document.querySelector('.rate');
-// let currencyFrom = 'RUB';
-// let currencyTo = 'USD';
-// let currentField = null;
-// let conversionRate = 0;
-
-// const apiKey = 'fca_live_HxTks4a0IIqwwEcrMskZ8IQ57kSsv7sMEBQIJL1h';
-
-// // Converts values based on the rate
-// const convertValue = (rate) => {
-//   const amount = currentField === 'from' ? inputFieldFrom.value : inputFieldTo.value;
-//   const result = amount ? (parseFloat(amount) * rate).toFixed(5) : '';
-//   currentField === 'from' ? inputFieldTo.value = result : inputFieldFrom.value = result;
-// };
-
-// // Fetches conversion rate and updates the fields
-// const fetchConversionRate = () => {
-//   const baseCurrency = currentField === 'from' ? currencyFrom : currencyTo;
-//   const targetCurrency = currentField === 'from' ? currencyTo : currencyFrom;
-
-//   fetch(`https://api.freecurrencyapi.com/v1/latest?apikey=${apiKey}&base_currency=${baseCurrency}`)
-//     .then(response => response.json())
-//     .then(data => {
-//       const rate = data.data[targetCurrency];
-//       conversionRate = rate;
-//       convertValue(rate);
-//     })
-//     .catch(() => alert("Failed to fetch exchange rate"));
-// };
-
-// // Updates the rate information displayed in the footer
-// const updateRateInfo = () => {
-//   fetch(`https://api.freecurrencyapi.com/v1/latest?apikey=${apiKey}&base_currency=${currencyFrom}`)
-//     .then(response => response.json())
-//     .then(data => {
-//       rateDisplayFrom.innerHTML = `1 ${currencyFrom} = <span>${data.data[currencyTo].toFixed(5)}</span> ${currencyTo}`;
-//     });
-
-//   fetch(`https://api.freecurrencyapi.com/v1/latest?apikey=${apiKey}&base_currency=${currencyTo}`)
-//     .then(response => response.json())
-//     .then(data => {
-//       rateDisplayTo.innerHTML = `1 ${currencyTo} = <span>${data.data[currencyFrom].toFixed(5)}</span> ${currencyFrom}`;
-//     });
-// };
-
-// // Validates and formats user input
-// const formatInput = (input) => {
-//   let value = input.value.replace(/[^0-9.,]/g, '').replace(',', '.');
-//   let decimalCount = 0;
-
-//   value = value.split('').filter(char => {
-//     if (char === '.') {
-//       decimalCount++;
-//       return decimalCount <= 1;
-//     }
-//     return true;
-//   }).join('');
-
-//   if (value.includes('.')) {
-//     const [integer, decimal] = value.split('.');
-//     value = `${integer}.${decimal.slice(0, 5)}`;
-//   }
-
-//   input.value = value;
-// };
-
-// // Event handler for input fields
-// inputFieldFrom.addEventListener('input', () => {
-//   currentField = 'from';
-//   formatInput(inputFieldFrom);
-//   fetchConversionRate();
-// });
-
-// inputFieldTo.addEventListener('input', () => {
-//   currentField = 'to';
-//   formatInput(inputFieldTo);
-//   fetchConversionRate();
-// });
-
-// // Sets the active currency button
-// const setActiveButton = (buttons, activeButton) => {
-//   buttons.forEach(button => button.classList.remove('active'));
-//   activeButton.classList.add('active');
-// };
-
-// // Currency selection handler
-// buttonsFrom.forEach(button => {
-//   button.addEventListener('click', () => {
-//     currencyFrom = button.textContent;
-//     setActiveButton(buttonsFrom, button);
-//     fetchConversionRate();
-//     updateRateInfo();
-//   });
-// });
-
-// buttonsTo.forEach(button => {
-//   button.addEventListener('click', () => {
-//     currencyTo = button.textContent;
-//     setActiveButton(buttonsTo, button);
-//     fetchConversionRate();
-//     updateRateInfo();
-//   });
-// });
-
-// // Initial setup of rate information
-// updateRateInfo();
-
-
-
-
-// const inputFieldFrom = document.querySelector('.inputFrom');
-// const inputFieldTo = document.querySelector('.inputTo');
-// const buttonsFrom = document.querySelectorAll('.tabFrom');
-// const buttonsTo = document.querySelectorAll('.tabTo');
-// const rateDisplayFrom = document.querySelector('.rate');
-// const rateDisplayTo = document.querySelector('.rate');
-// let currencyFrom = 'USD';
-// let currencyTo = 'RUB';
-// let currentField = null;
-// let conversionRate = 0;
-
-// const apiKey = '5261a43bcab84fc7aee3bac8';
-
-// const convertValue = (rate) => {
-//   const amount = currentField === 'from' ? inputFieldFrom.value : inputFieldTo.value;
-//   const result = amount ? (parseFloat(amount) * rate).toFixed(5) : '';
-//   currentField === 'from' ? inputFieldTo.value = result : inputFieldFrom.value = result;
-// };
-
-// const fetchConversionRate = () => {
-//   const baseCurrency = currentField === 'from' ? currencyFrom : currencyTo;
-//   const targetCurrency = currentField === 'from' ? currencyTo : currencyFrom;
-
-//   fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/pair/${baseCurrency}/${targetCurrency}`)
-//     .then(response => response.json())
-//     .then(data => {
-//       const rate = data.conversion_rate;
-//       conversionRate = rate;
-//       convertValue(rate);
-//     })
-//     .catch(() => alert("Failed to fetch exchange rate"));
-// };
-
-// const updateRateInfo = () => {
-//   fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/latest/${currencyFrom}`)
-//     .then(response => response.json())
-//     .then(data => {
-//       rateDisplayFrom.innerHTML = `1 ${currencyFrom} = <span>${data.conversion_rates[currencyTo].toFixed(5)}</span> ${currencyTo}`;
-//     });
-
-//   fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/latest/${currencyTo}`)
-//     .then(response => response.json())
-//     .then(data => {
-//       rateDisplayTo.innerHTML = `1 ${currencyTo} = <span>${data.conversion_rates[currencyFrom].toFixed(5)}</span> ${currencyFrom}`;
-//     });
-// };
-
-// const formatInput = (input) => {
-//   let value = input.value.replace(/[^0-9.,]/g, '').replace(',', '.');
-//   let decimalCount = 0;
-
-//   value = value.split('').filter(char => {
-//     if (char === '.') {
-//       decimalCount++;
-//       return decimalCount <= 1;
-//     }
-//     return true;
-//   }).join('');
-
-//   if (value.includes('.')) {
-//     const [integer, decimal] = value.split('.');
-//     value = `${integer}.${decimal.slice(0, 5)}`;
-//   }
-
-//   input.value = value;
-// };
-
-// inputFieldFrom.addEventListener('input', () => {
-//   currentField = 'from';
-//   formatInput(inputFieldFrom);
-//   fetchConversionRate();
-// });
-
-// inputFieldTo.addEventListener('input', () => {
-//   currentField = 'to';
-//   formatInput(inputFieldTo);
-//   fetchConversionRate();
-// });
-
-// const setActiveButton = (buttons, activeButton) => {
-//   buttons.forEach(button => button.classList.remove('active'));
-//   activeButton.classList.add('active');
-// };
-
-// buttonsFrom.forEach(button => {
-//   button.addEventListener('click', () => {
-//     currencyFrom = button.textContent;
-//     setActiveButton(buttonsFrom, button);
-//     fetchConversionRate();
-//     updateRateInfo();
-//   });
-// });
-
-// buttonsTo.forEach(button => {
-//   button.addEventListener('click', () => {
-//     currencyTo = button.textContent;
-//     setActiveButton(buttonsTo, button);
-//     fetchConversionRate();
-//     updateRateInfo();
-//   });
-// });
-
-// updateRateInfo();
-
-
-const inputFieldFrom = document.querySelector('.inputFrom');
-const inputFieldTo = document.querySelector('.inputTo');
+const inputFrom = document.querySelector('.inputFrom');
+const inputTo = document.querySelector('.inputTo');
 const buttonsFrom = document.querySelectorAll('.tabFrom');
 const buttonsTo = document.querySelectorAll('.tabTo');
-const rateDisplayFrom = document.querySelector('.rate.from');
-const rateDisplayTo = document.querySelector('.rate.to');
-let currencyFrom = 'USD';
-let currencyTo = 'RUB';
-let currentField = null;
-let conversionRate = 0;
+const rateFromText = document.querySelector('.rateFrom');
+const rateToText = document.querySelector('.rateTo');
 
-const apiKey = '5261a43bcab84fc7aee3bac8';
+let currencyFrom = 'RUB';
+let currencyTo = 'USD';
+let currentSide = 'from';
+let replaceTimeout;
+const apiKey = '17177c8f3e08009d88b27836';
 
-// Converts values based on the rate
-const convertValue = (rate) => {
-  const amount = currentField === 'from' ? inputFieldFrom.value : inputFieldTo.value;
-  const result = amount ? (parseFloat(amount) * rate).toFixed(5) : '';
-  currentField === 'from' ? inputFieldTo.value = result : inputFieldFrom.value = result;
-};
-
-// Fetches conversion rate and updates the fields
-const fetchConversionRate = () => {
-  const baseCurrency = currentField === 'from' ? currencyFrom : currencyTo;
-  const targetCurrency = currentField === 'from' ? currencyTo : currencyFrom;
-
-  fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/pair/${baseCurrency}/${targetCurrency}`)
-    .then(response => response.json())
-    .then(data => {
-      const rate = data.conversion_rate;
-      conversionRate = rate;
-      convertValue(rate);
-    })
-    .catch(() => alert("Failed to fetch exchange rate"));
-};
-
-// Updates the rate information displayed in the footer
-const updateRateInfo = () => {
-  fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/latest/${currencyFrom}`)
-    .then(response => response.json())
-    .then(data => {
-      rateDisplayFrom.innerHTML = `1 ${currencyFrom} = <span>${data.conversion_rates[currencyTo].toFixed(5)}</span> ${currencyTo}`;
+buttonsFrom.forEach(btn => {
+    btn.addEventListener('click', () => {
+        currencyFrom = btn.textContent;
+        buttonsFrom.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        updateRates();
+        convert();
     });
+});
 
-  fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/latest/${currencyTo}`)
-    .then(response => response.json())
-    .then(data => {
-      rateDisplayTo.innerHTML = `1 ${currencyTo} = <span>${data.conversion_rates[currencyFrom].toFixed(5)}</span> ${currencyFrom}`;
+buttonsTo.forEach(btn => {
+    btn.addEventListener('click', () => {
+        currencyTo = btn.textContent;
+        buttonsTo.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        updateRates();
+        convert();
     });
-};
+});
 
-// Validates and formats user input
-const formatInput = (input) => {
-  let value = input.value.replace(/[^0-9.,]/g, '').replace(',', '.');
-  let decimalCount = 0;
-
-  value = value.split('').filter(char => {
-    if (char === '.') {
-      decimalCount++;
-      return decimalCount <= 1;
+function updateRates() {
+    if (!navigator.onLine) {
+        if (currencyFrom === currencyTo) {
+            rateFromText.style.color="#999"
+            rateToText.style.color="#999"
+            rateFromText.innerHTML = `1 ${currencyFrom} = <span>1.0000</span> ${currencyTo}`;
+            rateToText.innerHTML = `1 ${currencyTo} = <span>1.0000</span> ${currencyFrom}`;
+        } else {
+            rateFromText.style.color="red"
+            rateToText.style.color="red"
+            rateFromText.innerHTML = `Şəbəkə yoxdur!`;
+            rateToText.innerHTML = `Şəbəkə yoxdur`;
+        }
+        return;
     }
-    return true;
-  }).join('');
+    fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/latest/${currencyFrom}`)
+        .then(res => res.json())
+        .then(data => {
+            rateFromText.innerHTML = `1 ${currencyFrom} = <span>${data.conversion_rates[currencyTo].toFixed(4)}</span> ${currencyTo}`;
+        });
 
-  if (value.includes('.')) {
-    const [integer, decimal] = value.split('.');
-    value = `${integer}.${decimal.slice(0, 5)}`;
-  }
+    fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/latest/${currencyTo}`)
+        .then(res => res.json())
+        .then(data => {
+            rateToText.innerHTML = `1 ${currencyTo} = <span>${data.conversion_rates[currencyFrom].toFixed(4)}</span> ${currencyFrom}`;
+        });
+}
 
-  input.value = value;
-};
+function convert() {
+    let base = currentSide === 'from' ? currencyFrom : currencyTo;
+    let target = currentSide === 'from' ? currencyTo : currencyFrom;
+    let amount = currentSide === 'from' ? inputFrom.value : inputTo.value;
 
-// Event handler for input fields
-inputFieldFrom.addEventListener('input', () => {
-  currentField = 'from';
-  formatInput(inputFieldFrom);
-  fetchConversionRate();
+    if (amount.trim() === '') {
+        if (currentSide === 'from') inputTo.value = '';
+        else inputFrom.value = '';
+        return;
+    }
+
+    if (amount === '.') {
+        if (currentSide === 'from') inputTo.value = '0';
+        else inputFrom.value = '0';
+        return;
+    }
+    if (!navigator.onLine) {
+        if (base === target) {
+            let result = parseFloat(amount).toFixed(5);
+            if (currentSide === 'from') inputTo.value = result;
+            else inputFrom.value = result;
+        } else {
+            if (currentSide === 'from') inputTo.value = '';
+            else inputFrom.value = '';
+        }
+        return;
+    }
+
+    fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/pair/${base}/${target}`)
+        .then(res => res.json())
+        .then(data => {
+            let rate = data.conversion_rate;
+            let result = (parseFloat(amount) * rate).toFixed(5);
+
+            if (currentSide === 'from') inputTo.value = result;
+            else inputFrom.value = result;
+        });
+}
+
+inputFrom.addEventListener('input', () => {
+    currentSide = 'from';
+    inputFrom.value = inputFrom.value.replace(/[^0-9.,]/g, '');
+
+    clearTimeout(replaceTimeout);
+    replaceTimeout = setTimeout(() => {
+        let clean = inputFrom.value.replace(',', '.').replace(/\.(?=.*\.)/g, '');
+        if (clean === '.') clean = '0.';
+        if (clean.includes('.')) clean = clean.slice(0, clean.indexOf('.') + 6);
+        inputFrom.value = clean;
+        convert();
+    }, 250);
 });
 
-inputFieldTo.addEventListener('input', () => {
-  currentField = 'to';
-  formatInput(inputFieldTo);
-  fetchConversionRate();
+inputTo.addEventListener('input', () => {
+    currentSide = 'to';
+    inputTo.value = inputTo.value.replace(/[^0-9.,]/g, '');
+
+    clearTimeout(replaceTimeout);
+    replaceTimeout = setTimeout(() => {
+        let clean = inputTo.value.replace(',', '.').replace(/\.(?=.*\.)/g, '');
+        if (clean === '.') clean = '0.';
+        if (clean.includes('.')) clean = clean.slice(0, clean.indexOf('.') + 6);
+        inputTo.value = clean;
+        convert();
+    }, 250);
 });
 
-// Sets the active currency button
-const setActiveButton = (buttons, activeButton) => {
-  buttons.forEach(button => button.classList.remove('active'));
-  activeButton.classList.add('active');
-};
-
-// Currency selection handler
-buttonsFrom.forEach(button => {
-  button.addEventListener('click', () => {
-    currencyFrom = button.textContent;
-    setActiveButton(buttonsFrom, button);
-    fetchConversionRate();
-    updateRateInfo();
-  });
-});
-
-buttonsTo.forEach(button => {
-  button.addEventListener('click', () => {
-    currencyTo = button.textContent;
-    setActiveButton(buttonsTo, button);
-    fetchConversionRate();
-    updateRateInfo();
-  });
-});
-
-// Initial setup of rate information
-updateRateInfo();
+updateRates();
